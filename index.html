@@ -16,6 +16,7 @@
 <title>MYCAL</title>
 <title>MYCAL</title>
 <title>MYCAL</title>
+<title>MYCAL</title>
 <style>
 :root { padding-top: env(safe-area-inset-top, 0px); }
 /* MYCAL: quick-entry card on the left, month calendar on the right; stacked on phones. Same look as Canvas. */
@@ -227,9 +228,10 @@ input, textarea { font: inherit; color: inherit; }
 .cp-title { font-weight: 700; font-size: 14px; }
 .cp-nav { width: 30px; height: 30px; border-radius: 7px; font-size: 20px; line-height: 1; color: var(--dim); }
 .cp-nav:hover { background: rgba(255,255,255,.08); color: var(--ink); }
-.cp-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; text-align: center; }
+.cp-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 2px; text-align: center; }
+.cp-grid > * { min-width: 0; }
 .cp-dow span { font-size: 11px; font-weight: 700; color: var(--faint); padding: 4px 0; }
-.cp-day { aspect-ratio: 1; border-radius: 7px; font-size: 13px; font-variant-numeric: tabular-nums; }
+.cp-day { height: 32px; width: 100%; border-radius: 7px; font-size: 13px; font-variant-numeric: tabular-nums; }
 .cp-day:hover { background: rgba(255,255,255,.08); }
 .cp-day.today { box-shadow: inset 0 0 0 1.5px var(--faint); }
 .cp-day.sel { background: var(--c); color: #000; font-weight: 700; box-shadow: none; }
@@ -601,7 +603,7 @@ textarea.field { resize: none; min-height: 74px; line-height: 1.45; overflow: hi
 
   /* ---------- quick add: one entry line ---------- */
   const qa = $("qa"), qaText = $("qaText"), qaDate = $("qaDate"), qaColor = $("qaColor");
-  const entry = { date: todayIso(), color: COLORS[0] };
+  const entry = { date: "", color: COLORS[0] };
   const rowEl = () => null, paintRow = () => {};
   function paintEntry() {
     qa.style.setProperty("--c", entry.color);
@@ -613,11 +615,11 @@ textarea.field { resize: none; min-height: 74px; line-height: 1.45; overflow: hi
   function submitEntry() {
     const title = qaText.value.replace(/\s+/g, " ").trim();
     if (!title) { flash(qaText); qaText.focus(); return; }
-    if (!entry.date) { flash(qaDate); qaDate.click(); return; }
+    if (!entry.date) { flash(qaDate); setTimeout(() => qaDate.click(), 0); return; }
     const e = newEvent(entry.date, entry.color, title.charAt(0).toUpperCase() + title.slice(1));
     saveEv(e.id, 200);
     const when = entry.date;
-    qaText.value = ""; entry.date = todayIso(); paintEntry();
+    qaText.value = ""; entry.date = ""; paintEntry();
     goToMonth(when); renderAll(); markFresh(e.id);
     showUndo(`Added “${e.title}” on ${shortDate(when)}`, () => { events.delete(e.id); saveEv(e.id, 0); renderAll(); });
     if (!isPhone()) qaText.focus();
