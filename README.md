@@ -1,14 +1,27 @@
-# MYCAL
+# PMBridge
 
-Quick-add items on the left, see them on a month calendar. Click any item to open its details (times, color, meeting link, links, notes, comments).
+Project cards with task cards, schedule cards, quick-add dates and a month calendar.
+Same look as Canvas and MYCAL. One static page, no build step.
+
+## Files
+- `index.html` – the whole app
+- `manifest.webmanifest`, `icons/` – home-screen app name and icons
+- `sw.js` – lets the app open offline
+- `vercel.json` – makes sure phones always get the newest version
 
 ## Put it online
-1. On github.com create a **new** repository named `mycal` (keep it separate from `canvas`).
-2. Click **uploading an existing file**, drag in everything in this folder (including the `icons` folder), then **Commit changes**.
-3. On vercel.com: **Add New… → Project**, import `mycal`, Framework Preset **Other**, then **Deploy**.
+1. Create a new GitHub repo (for example `pmbridge`) and upload everything in this folder to the top level.
+2. In Vercel: **Add New → Project → Import** that repo. Framework preset: **Other**. No build command, no output folder. Deploy.
+3. Open the Vercel link on each device.
 
-## Updating later
-Replace `index.html` in the `mycal` repository. Vercel republishes within a minute.
+## Add to the home screen
+- **iPhone / iPad:** open the link in Safari → Share → **Add to Home Screen**.
+- **Computer (Chrome or Edge):** click the install icon in the address bar.
 
-## Good to know
-Items are saved in the browser on each device. MYCAL and Canvas never share or overwrite each other's data.
+## Your data
+Data is saved on each device in the browser (it survives closing the app and restarting the device).
+Each device keeps its own copy, and on iPhone/iPad the home-screen app keeps a copy separate from Safari.
+Use the **⋯** button → *Back up my data* to download a backup file, and *Restore from a backup file* to load it on another device.
+
+## Updating
+After changing any file, raise `VERSION` in `sw.js` (for example `pmbridge-v2`) so installed copies refresh.
