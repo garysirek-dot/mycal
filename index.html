@@ -667,6 +667,7 @@ textarea.field { resize: none; min-height: 74px; line-height: 1.45; overflow: hi
   const STATUSES = ["Not Started", "In Progress", "Blocked", "Done"];
   const STATUS_CLASS = { "Not Started": "s-ns", "In Progress": "s-ip", "Blocked": "s-blk", "Done": "s-done" };
   const LS_KEY = "pmbridge-v1";
+  const APP_VERSION = "25 (Oct 14)";
   const $ = id => document.getElementById(id);
   const uid = () => Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4);
   const pad2 = n => String(n).padStart(2, "0");
@@ -1947,7 +1948,8 @@ textarea.field { resize: none; min-height: 74px; line-height: 1.45; overflow: hi
     openEditMenu(b, {
       actions: [
         { icon: ICON.save, text: "Back up my data (download)", run: exportData },
-        { icon: ICON.load, text: "Restore from a backup file", run: () => $("importFile").click() }
+        { icon: ICON.load, text: "Restore from a backup file", run: () => $("importFile").click() },
+        { text: "PMBridge version " + APP_VERSION, disabled: true, run: () => {} }
       ]
     });
     b.classList.add("open");
